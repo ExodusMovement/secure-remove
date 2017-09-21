@@ -48,6 +48,6 @@ export default function (method) {
     await fs.writeFile(tempfile, randomBytes(1024))
     await secureRemove[method](tempfile, { exact: true, zero: true })
     const data = await fs.readFile(tempfile)
-    t.equal(data.toString('hex'), new Buffer(1024).fill(0).toString('hex'))
+    t.equal(data.toString('hex'), Buffer.alloc(1024).toString('hex'))
   })
 }

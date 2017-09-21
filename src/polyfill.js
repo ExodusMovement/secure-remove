@@ -4,7 +4,7 @@ import { randomBytes } from 'crypto'
 export default async function polyfill (path, options = {}) {
   let fdTarget
   let fdSource
-  const buffer = new Buffer(16384)
+  const buffer = Buffer.alloc(16384)
 
   try {
     const stat = await fs.stat(path)
