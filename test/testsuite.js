@@ -1,78 +1,83 @@
-import test from 'tape'
+import test from 'tape-promise/tape'
 import { randomBytes } from 'crypto'
 import fs from 'fs'
 import * as secureRemove from '../src'
-import { withTempfile } from './util'
+import tmp from 'tempfile'
 
 export default function (method) {
-  test(`file not exists (${method})`, withTempfile((t) => {
+  test(`file not exists (${method})`, (t) => {
+    const tempfile = tmp()
     const errors = {
-      polyfill: `ENOENT: no such file or directory, stat '${t.tempfile}'`,
-      shred: `Exit with 1, stderr:\nshred: ${t.tempfile}: failed to open for writing: No such file or directory\n`
+      polyfill: `ENOENT: no such file or directory, stat '${tempfile}'`,
+      shred: `Exit with 1, stderr:\nshred: ${tempfile}: failed to open for writing: No such file or directory\n`
     }
 
-    secureRemove[method](t.tempfile, (err) => {
+    secureRemove[method](tempfile, (err) => {
       t.true(err instanceof Error)
       t.equal(err.message, errors[method])
       t.end()
     })
-  }))
+  })
 
-  test(`options.iterations is 1, as result data is not same (${method})`, withTempfile((t) => {
+  test(`options.iterations is 1, as result data is not same (${method})`, (t) => {
+    const tempfile = tmp()
     let dataOriginal = randomBytes(1024)
-    fs.writeFile(t.tempfile, dataOriginal, (err) => {
+    fs.writeFile(tempfile, dataOriginal, (err) => {
       t.error(err)
-      secureRemove[method](t.tempfile, { iterations: 1, randomSource: '/dev/urandom' }, (err) => {
+      secureRemove[method](tempfile, { iterations: 1, randomSource: '/dev/urandom' }, (err) => {
         t.error(err)
-        fs.readFile(t.tempfile, (err, data) => {
+        fs.readFile(tempfile, (err, data) => {
           t.error(err)
           t.notEqual(dataOriginal.toString('hex'), data.toString('hex'))
           t.end()
         })
       })
     })
-  }))
+  })
 
-  test(`options.size = 42K (${method})`, withTempfile((t) => {
-    fs.writeFile(t.tempfile, randomBytes(42), (err) => {
+  test(`options.size = 42K (${method})`, (t) => {
+    const tempfile = tmp()
+    fs.writeFile(tempfile, randomBytes(42), (err) => {
       t.error(err)
-      secureRemove[method](t.tempfile, { size: '42K' }, (err) => {
+      secureRemove[method](tempfile, { size: '42K' }, (err) => {
         t.error(err)
-        fs.stat(t.tempfile, (err, stat) => {
+        fs.stat(tempfile, (err, stat) => {
           t.error(err)
           t.equal(stat.size, 42 * 1024)
           t.end()
         })
       })
     })
-  }))
+  })
 
-  test(`options.remove is true (${method})`, withTempfile((t) => {
-    fs.writeFile(t.tempfile, randomBytes(1024), (err) => {
+  test(`options.remove is true (${method})`, (t) => {
+    const tempfile = tmp()
+    fs.writeFile(tempfile, randomBytes(1024), (err) => {
       t.error(err)
-      fs.writeFileSync(t.tempfile, randomBytes(1024))
-      secureRemove[method](t.tempfile, { remove: true }, (err) => {
+      fs.writeFileSync(tempfile, randomBytes(1024))
+      secureRemove[method](tempfile, { remove: true }, (err) => {
         t.error(err)
-        fs.stat(t.tempfile, (err) => {
+        fs.stat(tempfile, (err) => {
           t.true(err instanceof Error)
-          t.equal(err.message, `ENOENT: no such file or directory, stat '${t.tempfile}'`)
+          t.equal(err.message, `ENOENT: no such file or directory, stat '${tempfile}'`)
           t.end()
         })
       })
     })
-  }))
+  })
 
-  test(`options.exact and options.zero is true (${method})`, withTempfile((t) => {
-    fs.writeFile(t.tempfile, randomBytes(1024), (err) => {
+  test(`options.exact and options.zero is true (${method})`, (t) => {
+    const tempfile = tmp()
+    fs.writeFile(tempfile, randomBytes(1024), (err) => {
       t.error(err)
-      secureRemove[method](t.tempfile, { exact: true, zero: true }, (err) => {
+      secureRemove[method](tempfile, { exact: true, zero: true }, (err) => {
         t.error(err)
-        fs.readFile(t.tempfile, (err, data) => {
+        fs.readFile(tempfile, (err, data) => {
           t.error(err)
           t.equal(data.toString('hex'), new Buffer(1024).fill(0).toString('hex'))
           t.end()
         })
       })
     })
-  }))
+  })
 }
