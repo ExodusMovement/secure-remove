@@ -16,7 +16,7 @@ test('options.iterations is 1, as result data is not same', util.withTempfile((t
   let dataOriginal = randomBytes(1024)
   fs.writeFile(t.tempfile, dataOriginal, (err) => {
     t.error(err)
-    secureRemove.polyfill(t.tempfile, { iterations: 1, randomSource: '/dev/random' }, (err) => {
+    secureRemove.polyfill(t.tempfile, { iterations: 1, randomSource: '/dev/urandom' }, (err) => {
       t.error(err)
       fs.readFile(t.tempfile, (err, data) => {
         t.error(err)
