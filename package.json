@@ -25,7 +25,7 @@
     "build": "babel src -d lib",
     "lint": "standard",
     "test": "npm run lint && npm run unit",
-    "unit": "node test/index.js"
+    "unit": "tape -r babel-register test/index.js"
   },
   "dependencies": {
     "es6-promisify-all": "^0.1.0",

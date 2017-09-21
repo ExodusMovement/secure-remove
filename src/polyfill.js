@@ -1,9 +1,10 @@
-const promisifyAll = require('es6-promisify-all')
-const fs = require('fs')
-const fsa = promisifyAll(fs)
-const randomBytes = require('randombytes')
+import promisifyAll from 'es6-promisify-all'
+import fs from 'fs'
+import randomBytes from 'randombytes'
 
-function polyfill (path, options, callback) {
+const fsa = promisifyAll(fs)
+
+export default function polyfill (path, options, callback) {
   if (typeof options === 'function' && callback === undefined) {
     callback = options
     options = {}
@@ -89,5 +90,3 @@ function polyfill (path, options, callback) {
     callback(err)
   })
 }
-
-module.exports = polyfill

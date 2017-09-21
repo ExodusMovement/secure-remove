@@ -1,5 +1,4 @@
-require('babel-register')
-const testsuite = require('./testsuite')
+import testsuite from './testsuite'
 
 // if (process.platform === 'darwin') testsuite('srm')
 if (process.platform === 'linux') testsuite('shred')

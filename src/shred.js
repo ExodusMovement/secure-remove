@@ -1,6 +1,6 @@
-const spawn = require('child_process').spawn
+import { spawn } from 'child_process'
 
-function shred (path, options, callback) {
+export default function shred (path, options, callback) {
   if (typeof options === 'function' && callback === undefined) {
     callback = options
     options = {}
@@ -31,5 +31,3 @@ function shred (path, options, callback) {
     callback(new Error(`Exit with ${code}, stderr:\n${stderr}`))
   })
 }
-
-module.exports = shred

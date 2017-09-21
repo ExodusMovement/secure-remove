@@ -1,5 +1,3 @@
-function sdelete () {
+export default function sdelete () {
   throw new Error('Not implemented yet.')
 }
-
-module.exports = sdelete

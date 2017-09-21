@@ -1,11 +1,4 @@
-const sdelete = require('./sdelete')
-const shred = require('./shred')
-const srm = require('./srm')
-const polyfill = require('./polyfill')
-
-module.exports = {
-  sdelete,
-  shred,
-  srm,
-  polyfill
-}
+export sdelete from './sdelete'
+export shred from './shred'
+export srm from './srm'
+export polyfill from './polyfill'

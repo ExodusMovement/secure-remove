@@ -1,7 +1,7 @@
-const fs = require('fs')
-const tempfile = require('tempfile')
+import fs from 'fs'
+import tempfile from 'tempfile'
 
-function withTempfile (fn) {
+export function withTempfile (fn) {
   return (t) => {
     t.tempfile = tempfile()
 
@@ -22,8 +22,4 @@ function withTempfile (fn) {
       t.end(err)
     }
   }
-}
-
-module.exports = {
-  withTempfile
 }
