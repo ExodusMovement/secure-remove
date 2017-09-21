@@ -1,5 +1,5 @@
 import fs from 'fs-extra'
-import randomBytes from 'randombytes'
+import { randomBytes } from 'crypto'
 
 export default async function polyfill (path, options = {}) {
   let fdTarget
