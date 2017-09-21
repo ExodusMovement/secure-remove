@@ -39,10 +39,8 @@ export default function (method) {
     const tempfile = tmp()
     await fs.writeFile(tempfile, randomBytes(1024))
     await secureRemove[method](tempfile, { remove: true })
-    await fs.stat(tempfile).catch((err) => {
-      t.true(err instanceof Error)
-      t.equal(err.message, `ENOENT: no such file or directory, stat '${tempfile}'`)
-    })
+    const exists = await fs.pathExists(tempfile)
+    t.false(exists, 'file should not exist')
   })
 
   test(`options.exact and options.zero is true (${method})`, async (t) => {

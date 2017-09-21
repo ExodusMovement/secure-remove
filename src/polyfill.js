@@ -73,7 +73,7 @@ export default async function polyfill (path, options = {}) {
     await fs.close(fdTarget)
     fdTarget = undefined
 
-    if (options.remove) await fs.unlink(path)
+    if (options.remove) await fs.remove(path)
   } catch (err) {
     await Promise.all(
       [fdTarget, fdSource]
