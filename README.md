@@ -11,7 +11,7 @@
 * [shred(path[, options], callback)](#)
 * [polyfill(path[, options], callback)](#)
 
-##### shred(path[, options], callback)
+##### shred(path[, options])
 
 * `path` - string
 * `options` - Object
@@ -22,9 +22,8 @@
   * `remove` - boolean, truncate and remove file after overwriting
   * `exact` - boolean, do not round file sizes up to the next full block; this is the default for non-regular files
   * `zero` - boolean, add a final overwrite with zeros to hide shredding
-* `callback` - function
 
-##### polyfill(path[, options], callback)
+##### polyfill(path[, options])
 
 * `path` - string
 * `options` - Object
@@ -33,7 +32,6 @@
   * `size` - string|number, shred this many bytes (suffixes like K, M, G accepted)
   * `remove` - boolean, truncate and remove file after overwriting
   * `zero` - boolean, add a final overwrite with zeros to hide shredding
-* `callback` - function
 
 ## LICENSE
 

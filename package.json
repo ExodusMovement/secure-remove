@@ -28,7 +28,7 @@
     "unit": "tape -r babel-register test/index.js"
   },
   "dependencies": {
-    "es6-promisify-all": "^0.1.0",
+    "fs-extra": "^4.0.2",
     "randombytes": "^2.0.3"
   },
   "devDependencies": {

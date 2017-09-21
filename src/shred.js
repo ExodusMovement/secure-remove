@@ -1,13 +1,7 @@
 import { spawn } from 'child_process'
 
-export default function shred (path, options, callback) {
-  if (typeof options === 'function' && callback === undefined) {
-    callback = options
-    options = {}
-  }
-
+export default async function shred (path, options = {}) {
   const args = []
-  options = options || {}
   if (options.force) args.push('--force')
   if (options.iterations) args.push(`--iterations=${options.iterations}`)
   if (options.randomSource) args.push(`--random-source=${options.randomSource}`)
@@ -17,17 +11,19 @@ export default function shred (path, options, callback) {
   if (options.zero) args.push('--zero')
   args.push(path)
 
-  const proc = spawn('shred', args, {
-    stdio: [ 'ignore', 'ignore', 'pipe' ],
-    shell: true
-  })
+  return new Promise((resolve, reject) => {
+    const proc = spawn('shred', args, {
+      stdio: [ 'ignore', 'ignore', 'pipe' ],
+      shell: true
+    })
 
-  let stderr = ''
-  proc.stderr.on('data', (data) => { stderr += data })
+    let stderr = ''
+    proc.stderr.on('data', (data) => { stderr += data })
 
-  proc.once('error', callback)
-  proc.once('exit', (code) => {
-    if (code === 0) return callback(null)
-    callback(new Error(`Exit with ${code}, stderr:\n${stderr}`))
+    proc.once('error', reject)
+    proc.once('exit', (code) => {
+      if (code === 0) return resolve()
+      reject(new Error(`Exit with ${code}, stderr:\n${stderr}`))
+    })
   })
 }
