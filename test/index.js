@@ -1,7 +1,8 @@
 require('babel-register')
+const testsuite = require('./testsuite')
 
-if (process.platform === 'darwin') require('./srm')
-if (process.platform === 'linux') require('./shred')
-if (process.platform === 'win32') require('./sdelete')
+// if (process.platform === 'darwin') testsuite('srm')
+if (process.platform === 'linux') testsuite('shred')
+// if (process.platform === 'win32') testsuite('sdelete')
 
-require('./polyfill')
+testsuite('polyfill')
