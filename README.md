@@ -19,16 +19,6 @@ Securely remove a file, using a pure JS implementation.
   * `remove` (Boolean) - Truncate and remove file after overwriting. Default `false`.
   * `zero` (Boolean) - Add a final overwrite with zeros to hide shredding. Default `false`.
 
-### shred(path[, options])
-
-Remove a file by shelling out to [`shred`](http://www.manpages.info/linux/shred.1.html). **Works on Linux ONLY!**
-
-* `file` (String) - Filepath to securely remove
-* `options` (Object)
-  * `force` (Boolean) - Change permissions to allow writing if necessary.
-  * `exact` (Boolean) - Do not round file sizes up to the next full block; this is the default for non-regular files.
-  * _Supports all options supported by `polyfill()`..._
-
 ## LICENSE
 
 MIT
