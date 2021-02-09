@@ -1,52 +1,48 @@
-import test from 'tape-promise/tape'
-import { randomBytes } from 'crypto'
-import fs from 'fs-extra'
-import * as secureRemove from '../src'
-import tmp from 'tempfile'
+const test = require('tape-promise/tape')
+const { randomBytes } = require('crypto')
+const fs = require('fs-extra')
+const secureRemove = require('..')
+const tmp = require('tempfile')
 
-export default function (method) {
-  test(`file not exists (${method})`, async (t) => {
+module.exports = function () {
+  test(`file not exists`, async (t) => {
     const tempfile = tmp()
-    const errors = {
-      polyfill: `ENOENT: no such file or directory, stat '${tempfile}'`,
-      shred: `Exit with 1, stderr:\nshred: ${tempfile}: failed to open for writing: No such file or directory\n`
-    }
 
-    await secureRemove[method](tempfile).catch((err) => {
+    await secureRemove(tempfile).catch((err) => {
       t.true(err instanceof Error)
-      t.equal(err.message, errors[method])
+      t.equal(err.message, `ENOENT: no such file or directory, stat '${tempfile}'`)
     })
   })
 
-  test(`options.iterations is 1, as result data is not same (${method})`, async (t) => {
+  test(`options.iterations is 1, as result data is not same`, async (t) => {
     const tempfile = tmp()
     let dataOriginal = randomBytes(1024)
     await fs.writeFile(tempfile, dataOriginal)
-    await secureRemove[method](tempfile, { iterations: 1, randomSource: '/dev/urandom' })
+    await secureRemove(tempfile, { iterations: 1, randomSource: '/dev/urandom' })
     const data = await fs.readFile(tempfile)
     t.notEqual(dataOriginal.toString('hex'), data.toString('hex'))
   })
 
-  test(`options.size = 42K (${method})`, async (t) => {
+  test(`options.size = 42K`, async (t) => {
     const tempfile = tmp()
     await fs.writeFile(tempfile, randomBytes(42))
-    await secureRemove[method](tempfile, { size: '42K' })
+    await secureRemove(tempfile, { size: '42K' })
     const stat = await fs.stat(tempfile)
     t.equal(stat.size, 42 * 1024)
   })
 
-  test(`options.remove is true (${method})`, async (t) => {
+  test(`options.remove is true`, async (t) => {
     const tempfile = tmp()
     await fs.writeFile(tempfile, randomBytes(1024))
-    await secureRemove[method](tempfile, { remove: true })
+    await secureRemove(tempfile, { remove: true })
     const exists = await fs.pathExists(tempfile)
     t.false(exists, 'file should not exist')
   })
 
-  test(`options.exact and options.zero is true (${method})`, async (t) => {
+  test(`options.exact and options.zero is true`, async (t) => {
     const tempfile = tmp()
     await fs.writeFile(tempfile, randomBytes(1024))
-    await secureRemove[method](tempfile, { exact: true, zero: true })
+    await secureRemove(tempfile, { exact: true, zero: true })
     const data = await fs.readFile(tempfile)
     t.equal(data.toString('hex'), Buffer.alloc(1024).toString('hex'))
   })

@@ -1,3 +1,3 @@
-import testsuite from './testsuite'
+const testsuite = require('./testsuite')
 
-testsuite('polyfill')
+testsuite()
