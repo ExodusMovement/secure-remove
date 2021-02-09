@@ -4,7 +4,7 @@ const fs = require('fs-extra')
 const secureRemove = require('..')
 const tmp = require('tempfile')
 
-module.exports = function () {
+function testsuite () {
   test(`file not exists`, async (t) => {
     const tempfile = tmp()
 
@@ -47,3 +47,5 @@ module.exports = function () {
     t.equal(data.toString('hex'), Buffer.alloc(1024).toString('hex'))
   })
 }
+
+testsuite()
