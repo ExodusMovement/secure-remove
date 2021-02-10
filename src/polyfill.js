@@ -1,5 +1,15 @@
-const fs = require('fs-extra')
+const graceful = require('graceful-fs')
+const { promisify } = require('util')
 const { randomBytes } = require('crypto')
+
+const fs = {
+  stat: promisify(graceful.stat),
+  open: promisify(graceful.open),
+  close: promisify(graceful.close),
+  read: promisify(graceful.read),
+  write: promisify(graceful.write),
+  unlink: promisify(graceful.unlink)
+}
 
 async function secureRemove (path, options = {}) {
   let fdTarget
@@ -73,7 +83,7 @@ async function secureRemove (path, options = {}) {
     await fs.close(fdTarget)
     fdTarget = undefined
 
-    if (options.remove) await fs.remove(path)
+    if (options.remove) await fs.unlink(path)
   } catch (err) {
     await Promise.all(
       [fdTarget, fdSource]
