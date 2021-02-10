@@ -28,6 +28,7 @@ export default async function polyfill (path, options = {}) {
       if (match === null) throw new Error(`invalid iterations: ${options.iterations}`)
       iterations = parseInt(options.iterations, 10)
     }
+    if (!(iterations >= 1)) throw new Error(`invalid iterations: ${options.iterations}`)
     if (options.zero) iterations -= 1
 
     fdTarget = await fs.open(path, 'w')
