@@ -7,7 +7,7 @@
 
 ## API
 
-### polyfill(file[, options])
+### secureRemove(file[, options])
 
 Securely remove a file, using a pure JS implementation.
 
