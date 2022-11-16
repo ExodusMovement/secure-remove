@@ -12,7 +12,7 @@
     "url": "https://github.com/ExodusMovement/secure-remove/issues"
   },
   "engines": {
-    "node": ">=8"
+    "node": ">=14"
   },
   "license": "MIT",
   "author": "Kirill Fomichev <fanatid@ya.ru> (https://github.com/fanatid)",
