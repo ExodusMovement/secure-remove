@@ -1,7 +1,7 @@
-import fs from 'fs-extra'
-import { randomBytes } from 'crypto'
+const fs = require('fs-extra')
+const { randomBytes } = require('crypto')
 
-export default async function polyfill (path, options = {}) {
+async function secureRemove (path, options = {}) {
   let fdTarget
   let fdSource
   const buffer = Buffer.alloc(16384)
@@ -84,3 +84,5 @@ export default async function polyfill (path, options = {}) {
     throw err
   }
 }
+
+module.exports = secureRemove
