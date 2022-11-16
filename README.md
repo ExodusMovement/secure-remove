@@ -1,8 +1,7 @@
 # secure-remove
 
 [![NPM Package](https://img.shields.io/npm/v/secure-remove.svg?style=flat-square)](https://www.npmjs.org/package/secure-remove)
-[![Build Status](https://img.shields.io/travis/ExodusMovement/secure-remove.svg?branch=master&style=flat-square)](https://travis-ci.org/ExodusMovement/secure-remove)
-[![Dependency status](https://img.shields.io/david/ExodusMovement/secure-remove.svg?style=flat-square)](https://david-dm.org/ExodusMovement/secure-remove#info=dependencies)
+[![Build Status](https://img.shields.io/github/workflow/status/ExodusMovement/secure-remove/CI/master?style=flat-square)](https://github.com/ExodusMovement/secure-remove/actions?query=branch%3Amaster)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg?style=flat-square)](https://standardjs.com)
 
 ## API
