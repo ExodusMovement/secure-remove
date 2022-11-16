@@ -1,6 +1,6 @@
 const test = require('tape-promise/tape')
 const { randomBytes } = require('crypto')
-const fs = require('fs-extra')
+const fs = require('fs/promises')
 const secureRemove = require('..')
 const tmp = require('tempfile')
 
@@ -34,8 +34,9 @@ test(`options.remove is true`, async (t) => {
   const tempfile = tmp()
   await fs.writeFile(tempfile, randomBytes(1024))
   await secureRemove(tempfile, { remove: true })
-  const exists = await fs.pathExists(tempfile)
-  t.false(exists, 'file should not exist')
+  const exists = await fs.stat(tempfile).catch(err => err)
+  t.equal(exists.constructor, Error, 'file should not exist')
+  t.equal(exists.code, 'ENOENT', 'file should not exist')
 })
 
 test(`options.exact and options.zero is true`, async (t) => {
