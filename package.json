@@ -1,6 +1,6 @@
 {
   "name": "secure-remove",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Removing files securely",
   "keywords": [
     "sdelete",
