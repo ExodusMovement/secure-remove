@@ -29,9 +29,6 @@
     "test": "npm run lint && npm run unit",
     "unit": "tape test/testsuite.js"
   },
-  "dependencies": {
-    "fs-extra": "^6.0.1"
-  },
   "devDependencies": {
     "standard": "^10.0.3",
     "tape": "^4.6.0",
